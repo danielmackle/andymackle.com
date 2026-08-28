@@ -82,7 +82,7 @@ const VideoPlayer = ({ src }) => {
   );
 };
 
-const Slideshow = ({ images }) => {
+const Slideshow = ({ images, imageZoom = 1, onTouchMove, onTouchEnd }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -97,17 +97,21 @@ const Slideshow = ({ images }) => {
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* Slider View */}
-      <div style={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#000' }}>
+      <div
+        style={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#000', touchAction: 'none' }}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         <AnimatePresence mode="wait">
           <motion.img
             key={currentIndex}
             src={images[currentIndex]}
             alt={`Slide ${currentIndex}`}
             initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={{ opacity: 1, scale: imageZoom }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            style={{ width: '100%', height: '100%', objectFit: 'contain', cursor: 'grab', userSelect: 'none' }}
           />
         </AnimatePresence>
 
@@ -172,6 +176,7 @@ const Slideshow = ({ images }) => {
 const GallerySection = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [imageZoom, setImageZoom] = useState(1);
 
   useEffect(() => {
     const handleResize = () => {
@@ -181,6 +186,44 @@ const GallerySection = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Reset zoom when modal closes
+  useEffect(() => {
+    setImageZoom(1);
+  }, [selectedItem]);
+
+  // Pinch-to-zoom gesture handler using native Touch events
+  const handleTouchMove = (e) => {
+    if (e.touches.length === 2) {
+      const touch1 = e.touches[0];
+      const touch2 = e.touches[1];
+      const distance = Math.hypot(
+        touch2.clientX - touch1.clientX,
+        touch2.clientY - touch1.clientY
+      );
+      // Store initial distance on first pinch
+      if (!e.target.dataset.initialDistance) {
+        e.target.dataset.initialDistance = distance;
+      }
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    if (e.touches.length < 2) {
+      const initialDistance = parseFloat(e.target.dataset.initialDistance || 0);
+      if (initialDistance > 0 && e.changedTouches.length === 2) {
+        const touch1 = e.changedTouches[0];
+        const touch2 = e.changedTouches[1];
+        const finalDistance = Math.hypot(
+          touch2.clientX - touch1.clientX,
+          touch2.clientY - touch1.clientY
+        );
+        const scale = finalDistance / initialDistance;
+        setImageZoom((prev) => Math.max(1, Math.min(prev * scale, 3)));
+      }
+      e.target.dataset.initialDistance = '';
+    }
+  };
 
   return (
     <section id="gallery" className="section" style={{ backgroundColor: '#0a0a0a' }}>
@@ -344,7 +387,7 @@ const GallerySection = () => {
                 {selectedItem.type === 'video' ? (
                   <VideoPlayer src={selectedItem.videoUrl} />
                 ) : (
-                  <Slideshow images={selectedItem.images} />
+                  <Slideshow images={selectedItem.images} imageZoom={imageZoom} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} />
                 )}
               </div>
 

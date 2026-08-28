@@ -71,7 +71,15 @@ const VideoPlayer = ({ src }) => {
         video.pause();
       }
     });
-  }, []);
+
+    // Cleanup: pause this video when component unmounts (modal closes)
+    return () => {
+      if (videoRef.current) {
+        videoRef.current.pause();
+        videoRef.current.currentTime = 0;
+      }
+    };
+  }, [src]);
 
   return (
     <div style={{ width: '100%', height: '100%', backgroundColor: '#000', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -209,9 +217,17 @@ const GallerySection = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Reset zoom when modal closes
+  // Reset zoom and stop all audio/video when modal closes
   useEffect(() => {
     setImageZoom(1);
+    if (!selectedItem) {
+      // Stop all videos when modal closes
+      const allVideos = document.querySelectorAll('video');
+      allVideos.forEach(video => {
+        video.pause();
+        video.currentTime = 0;
+      });
+    }
   }, [selectedItem]);
 
   // Pinch-to-zoom gesture handler using native Touch events

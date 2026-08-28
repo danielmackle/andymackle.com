@@ -194,13 +194,28 @@ const GallerySection = () => {
           Media & Gallery
         </motion.h2>
 
-        <div
+        <motion.div
           className="gallery-grid"
+          drag="x"
+          dragElastic={0.2}
+          dragMomentum={false}
+          onDragEnd={(e, info) => {
+            // Swipe left (negative offset) → scroll gallery
+            if (info.offset.x < -50) {
+              window.scrollBy({ left: 300, behavior: 'smooth' });
+            }
+            // Swipe right (positive offset) → scroll back
+            if (info.offset.x > 50) {
+              window.scrollBy({ left: -300, behavior: 'smooth' });
+            }
+          }}
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: '2rem',
-            marginTop: '3rem'
+            marginTop: '3rem',
+            cursor: 'grab',
+            touchAction: 'pan-y'
           }}>
           {mediaItems.map((item, index) => (
             <motion.div
@@ -294,7 +309,7 @@ const GallerySection = () => {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Lightbox / Video Modal */}

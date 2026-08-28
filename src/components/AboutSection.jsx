@@ -13,7 +13,9 @@ const AboutSection = () => {
           About Me
         </motion.h2>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', marginTop: '2rem' }}>
+        <div
+          className="flex-layout"
+          style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', marginTop: '2rem' }}>
           <motion.div 
             style={{ flex: '1 1 400px' }}
             initial={{ opacity: 0, x: -30 }}

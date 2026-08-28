@@ -3,21 +3,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play, Pause, ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react';
 
 const mediaItems = [
-  { 
-    id: 1, 
-    type: 'video', 
-    title: 'Heart - Alone', 
+  {
+    id: 1,
+    type: 'video',
+    title: 'Heart - Alone',
     description: `• Difficulty: Medium-High\n• Techniques: Melodic string bending, wide vocal-like vibrato, sustained notes, precise pick attacks.\n• Style: Power ballad emotion with clean, soaring articulation.`,
-    videoUrl: '/videos/Alone Instagram July 2026.mp4', 
-    thumbnail: '/videos/Alone Instagram July 2026.mp4#t=0.5' 
+    videoUrl: '/videos/Alone Instagram July 2026.mp4',
+    thumbnail: '/videos/thumbs/alone.jpg'
   },
-  { 
-    id: 2, 
-    type: 'video', 
-    title: 'Van Halen - Dreams', 
+  {
+    id: 2,
+    type: 'video',
+    title: 'Van Halen - Dreams',
     description: `• Difficulty: High\n• Techniques: Rapid two-handed tapping, high-gain pinch harmonics, whammy bar dives, fast alternate picking runs.\n• Style: High-energy, virtuosic 80s arena rock.`,
-    videoUrl: '/videos/Dreams Instagram July 2026.mp4', 
-    thumbnail: '/videos/Dreams Instagram July 2026.mp4#t=0.5' 
+    videoUrl: '/videos/Dreams Instagram July 2026.mp4',
+    thumbnail: '/videos/thumbs/dreams.jpg'
   },
   {
     id: 3,
@@ -25,22 +25,23 @@ const mediaItems = [
     title: 'Bon Jovi - Dry County',
     description: `• Difficulty: Extremely High\n• Techniques: High-speed alternate picking, sweep picking arpeggios, wide interval stretches, aggressive blues-rock bends.\n• Style: Epic rock solo demanding peak stamina and synchronization.`,
     videoUrl: '/videos/Dry County Solo 2 August 2026.mp4',
-    thumbnailTime: 8
+    thumbnail: '/videos/thumbs/dry-county.jpg'
   },
-  { 
-    id: 4, 
-    type: 'video', 
-    title: 'Pat Benatar - Hit Me With Your Best Shot', 
+  {
+    id: 4,
+    type: 'video',
+    title: 'Pat Benatar - Hit Me With Your Best Shot',
     description: `• Difficulty: Medium\n• Techniques: Dynamic double stops, melodic hooks, classic rock bends, rapid pentatonic runs.\n• Style: Tight, punchy pop-rock hooks.`,
-    videoUrl: '/videos/Hit Me With Your Best Shot Instagram July 2026.mp4', 
-    thumbnail: '/videos/Hit Me With Your Best Shot Instagram July 2026.mp4#t=0.5' 
+    videoUrl: '/videos/Hit Me With Your Best Shot Instagram July 2026.mp4',
+    thumbnail: '/videos/thumbs/hit-me.jpg'
   },
   {
     id: 5,
     type: 'video',
     title: 'ABBA - Slipping Through my Fingers',
     description: `• Difficulty: Medium\n• Techniques: Rhythmic pocket playing, dynamic slides, melodic double-stops, clean bluesy articulation.\n• Style: Smooth, expressive rock/blues phrasing.`,
-    videoUrl: '/videos/Slipping July 2026.mp4'
+    videoUrl: '/videos/Slipping July 2026.mp4',
+    thumbnail: '/videos/thumbs/slipping.jpg'
   },
 ];
 
@@ -314,62 +315,25 @@ const GallerySection = () => {
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
-              {/* Thumbnail (Video or Image) */}
-              {item.type === 'video' ? (
-                <div
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: '#1a1a1a',
-                    position: 'relative',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                >
-                  <video
-                    src={item.videoUrl}
-                    preload="metadata"
-                    muted
-                    playsInline
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      opacity: 0.6,
-                      transition: 'opacity 0.3s ease'
-                    }}
-                    onMouseOver={(e) => e.currentTarget.style.opacity = 0.8}
-                    onMouseOut={(e) => e.currentTarget.style.opacity = 0.6}
-                    onLoadedMetadata={(e) => {
-                      if (item.thumbnailTime !== undefined) {
-                        e.target.currentTime = item.thumbnailTime;
-                      }
-                    }}
-                    onError={() => {
-                      e.target.style.display = 'none';
-                    }}
-                  />
-                </div>
-              ) : (
-                <img
-                  src={item.thumbnail}
-                  alt={item.title}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    opacity: 0.6,
-                    transition: 'opacity 0.3s ease',
-                    backgroundColor: '#1a1a1a'
-                  }}
-                  onMouseOver={(e) => e.currentTarget.style.opacity = 0.8}
-                  onMouseOut={(e) => e.currentTarget.style.opacity = 0.6}
-                  onError={(e) => {
-                    e.target.style.backgroundColor = '#1a1a1a';
-                  }}
-                />
-              )}
+              {/* Thumbnail (static poster image - keeps the grid lightweight and reliable on mobile) */}
+              <img
+                src={item.thumbnail}
+                alt={item.title}
+                loading="lazy"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  opacity: 0.6,
+                  transition: 'opacity 0.3s ease',
+                  backgroundColor: '#1a1a1a'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.opacity = 0.8}
+                onMouseOut={(e) => e.currentTarget.style.opacity = 0.6}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
 
               {/* Info Overlay */}
               <div style={{

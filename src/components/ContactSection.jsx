@@ -2,23 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, Mail, X, Send, CheckCircle } from 'lucide-react';
 
-// Custom Inline SVGs for Facebook and Instagram to avoid Lucide version issues
-const FacebookIcon = ({ size = 20 }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-  </svg>
-);
-
+// Custom Inline SVG for Instagram to avoid Lucide version issues
 const InstagramIcon = ({ size = 20 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -122,7 +106,7 @@ const ContactSection = () => {
           >
             <h3 style={{ fontSize: '1.8rem', marginBottom: '1.5rem', color: 'var(--color-white)' }}>Let's Connect</h3>
             <p style={{ marginBottom: '2.5rem', color: 'var(--color-text-muted)', fontSize: '1.1rem', lineHeight: '1.7' }}>
-                          Your phone linging your phone linging blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
+              Whether you're after guitar or bass lessons, booking a session, or just have a question about lessons or availability, I'd love to hear from you. Drop a message below, call, or find me on socials — I usually reply within a day.
             </p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -133,10 +117,6 @@ const ContactSection = () => {
               <a href="https://instagram.com/_theandymack_" target="_blank" rel="noopener noreferrer" style={linkStyle}>
                 <InstagramIcon size={22} />
                 <span>@_theandymack_</span>
-              </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                <FacebookIcon size={22} />
-                <span>Facebook</span>
               </a>
               <a href="mailto:andymackle74@gmail.com" style={linkStyle}>
                 <Mail size={22} style={{ color: 'var(--color-evh-red)' }} />

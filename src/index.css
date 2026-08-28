@@ -336,8 +336,8 @@ h4 { font-size: clamp(1rem, 2.5vw, 1.5rem); }
 /* Notch support for modern phones */
 @supports (padding: max(0px)) {
   body {
-    padding-left: max(1rem, env(safe-area-inset-left));
-    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 }
 
@@ -345,8 +345,8 @@ h4 { font-size: clamp(1rem, 2.5vw, 1.5rem); }
 
 /* Mobile: 320px - 767px */
 @media (max-width: 767px) {
-  .sidebar { display: none; }
-  .menu-toggle-btn { display: block; }
+  .sidebar { width: min(85vw, 320px); }
+  .menu-toggle-btn { display: flex; width: 50px; height: 50px; top: 15px; }
 
   .section {
     padding: 2rem 1.5rem;
@@ -388,8 +388,8 @@ h4 { font-size: clamp(1rem, 2.5vw, 1.5rem); }
 
 /* Tablet: 768px - 1023px */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .sidebar { display: none; }
-  .menu-toggle-btn { display: block; }
+  .sidebar { width: min(75vw, 380px); }
+  .menu-toggle-btn { display: flex; }
 
   .section {
     padding: 3rem 2rem;

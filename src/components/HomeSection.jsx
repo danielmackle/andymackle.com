@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 const evhStripes = [
   // Background layer (moves slightly)
@@ -40,12 +40,32 @@ const HomeSection = () => {
     mouseY.set(y);
   };
 
+  const handleTouchMove = (e) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    handleMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
+  };
+
+  // Ambient idle drift for touch devices (no mouse to drive the parallax)
+  useEffect(() => {
+    if (!window.matchMedia('(hover: none)').matches) return;
+    let frame;
+    const animate = (t) => {
+      mouseX.set(Math.sin(t / 3000));
+      mouseY.set(Math.cos(t / 4000));
+      frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [mouseX, mouseY]);
+
   return (
-    <section 
-      id="home" 
-      className="section" 
+    <section
+      id="home"
+      className="section"
       ref={containerRef}
       onMouseMove={handleMouseMove}
+      onTouchMove={handleTouchMove}
       style={{ backgroundColor: 'var(--color-evh-red)', overflow: 'hidden' }}
     >
       {/* Interactive Parallax Stripes */}
@@ -80,7 +100,7 @@ const HomeSection = () => {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          style={{ fontSize: '4.5rem', lineHeight: '1.1', marginBottom: '1rem', color: 'var(--color-white)' }}
+          style={{ fontSize: 'clamp(2.2rem, 9vw, 4.5rem)', lineHeight: '1.1', marginBottom: '1rem', color: 'var(--color-white)' }}
         >
           ANDREW<br/>
           <span style={{ color: 'var(--color-evh-red)' }}>MACKLE</span>
@@ -90,7 +110,7 @@ const HomeSection = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          style={{ fontSize: '1.5rem', color: 'var(--color-text-muted)', marginBottom: '3rem', maxWidth: '500px' }}
+          style={{ fontSize: 'clamp(1rem, 4vw, 1.5rem)', color: 'var(--color-text-muted)', marginBottom: '3rem', maxWidth: '500px' }}
         >
           Seasoned Musician, Full-Time Pro, & Dedicated Tutor.
         </motion.p>

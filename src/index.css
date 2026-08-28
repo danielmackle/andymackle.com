@@ -82,7 +82,7 @@ h4 { font-size: clamp(1rem, 2.5vw, 1.5rem); }
   top: 0;
   left: 0;
   width: var(--sidebar-width);
-  height: 100vh;
+  height: 150vh;
   background-color: var(--color-bg-light);
   /* Zig-zag triangular ripped edge on the right */
   clip-path: polygon(

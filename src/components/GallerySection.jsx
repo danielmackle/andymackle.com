@@ -25,7 +25,7 @@ const mediaItems = [
     title: 'Bon Jovi - Dry County',
     description: `• Difficulty: Extremely High\n• Techniques: High-speed alternate picking, sweep picking arpeggios, wide interval stretches, aggressive blues-rock bends.\n• Style: Epic rock solo demanding peak stamina and synchronization.`,
     videoUrl: '/videos/Dry County Solo 2 August 2026.mp4',
-    thumbnailTime: 3
+    thumbnailTime: 8
   },
   { 
     id: 4, 
@@ -77,6 +77,8 @@ const VideoPlayer = ({ src }) => {
         ref={videoRef}
         src={src}
         controls
+        autoPlay
+        muted
         onLoadedData={() => setIsLoading(false)}
         onError={() => {
           setIsLoading(false);
@@ -348,19 +350,6 @@ const GallerySection = () => {
                       e.target.style.display = 'none';
                     }}
                   />
-                  <div style={{
-                    position: 'absolute',
-                    width: '50px',
-                    height: '50px',
-                    backgroundColor: 'rgba(209, 16, 19, 0.9)',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    pointerEvents: 'none'
-                  }}>
-                    <Play size={24} fill="white" color="white" />
-                  </div>
                 </div>
               ) : (
                 <img

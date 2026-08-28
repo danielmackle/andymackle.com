@@ -138,9 +138,9 @@ const ContactSection = () => {
                 <FacebookIcon size={22} />
                 <span>Facebook</span>
               </a>
-              <a href="mailto:contact@andymackle.com" style={linkStyle}>
+              <a href="mailto:andymackle74@gmail.com" style={linkStyle}>
                 <Mail size={22} style={{ color: 'var(--color-evh-red)' }} />
-                <span>contact@andymackle.com</span>
+                <span>andymackle74@gmail.com</span>
               </a>
             </div>
           </motion.div>
@@ -209,7 +209,7 @@ const ContactSection = () => {
                       NEW COMPOSITION
                     </h3>
                     <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: '5px 0 0 0' }}>
-                      TO: contact@andymackle.com
+                      TO: andymackle74@gmail.com
                     </p>
                   </div>
 

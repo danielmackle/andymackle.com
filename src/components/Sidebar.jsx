@@ -1,4 +1,4 @@
-import { Home, User, Video, Mail } from 'lucide-react';
+import { Home, User, Video, Mail, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -52,8 +52,31 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
             transition={{ type: 'spring', damping: 20, stiffness: 100 }}
           >
             <div className="sidebar-logo">
-              <h2>ANDY</h2>
-              <span>MACKLE</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
+                <div>
+                  <h2 style={{ margin: 0 }}>ANDY</h2>
+                  <span>MACKLE</span>
+                </div>
+                <button
+                  onClick={closeSidebar}
+                  style={{
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    color: 'var(--color-evh-red)',
+                    cursor: 'pointer',
+                    padding: '5px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'transform 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                  onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                  aria-label="Close sidebar"
+                >
+                  <X size={28} />
+                </button>
+              </div>
             </div>
             
             <ul className="nav-links">

@@ -417,7 +417,7 @@ h4 { font-size: clamp(1rem, 2.5vw, 1.5rem); }
 /* Desktop: 1024px+ */
 @media (min-width: 1024px) {
   .sidebar { display: flex; }
-  .menu-toggle-btn { display: none; }
+  .menu-toggle-btn { display: flex; }
 
   .section {
     padding: 4rem 2rem;

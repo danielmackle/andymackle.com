@@ -194,12 +194,14 @@ const GallerySection = () => {
           Media & Gallery
         </motion.h2>
 
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-          gap: '2rem',
-          marginTop: '3rem'
-        }}>
+        <div
+          className="gallery-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '2rem',
+            marginTop: '3rem'
+          }}>
           {mediaItems.map((item, index) => (
             <motion.div
               key={item.id}

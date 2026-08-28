@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Sidebar from './components/Sidebar';
 import HomeSection from './components/HomeSection';
@@ -12,13 +13,15 @@ function App() {
 
   return (
     <div className="app-container">
-      <button 
+      <motion.button
         className="menu-toggle-btn"
+        animate={{ left: isSidebarOpen ? 400 : 20 }}
+        transition={{ type: 'spring', damping: 20, stiffness: 100 }}
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         aria-label="Toggle Menu"
       >
         <img src="/pick.png" alt="Menu Toggle" />
-      </button>
+      </motion.button>
 
       <ErrorBoundary>
         <Sidebar isOpen={isSidebarOpen} closeSidebar={() => setIsSidebarOpen(false)} />

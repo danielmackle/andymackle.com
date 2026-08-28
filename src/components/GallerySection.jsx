@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play, Pause, ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react';
 
@@ -57,28 +57,50 @@ const mediaItems = [
   }
 ];
 
-// Dedicated VideoPlayer component with cleanup hook to guarantee only one video plays at a time
+// Dedicated VideoPlayer component with proper ref handling
 const VideoPlayer = ({ src }) => {
-  const videoRef = import.meta.env ? { current: null } : null; // JS reference
-  const ref = useState(null)[0];
-  const activeVideoRef = useEffect(() => {
-    return () => {
-      // Pause any active audio/video when player is unmounted
-      const activeVideos = document.querySelectorAll('video');
-      activeVideos.forEach(v => {
-        v.pause();
-        v.src = '';
-      });
-    };
-  }, [src]);
+  const videoRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    // Pause all other videos when this one plays
+    const allVideos = document.querySelectorAll('video');
+    allVideos.forEach(video => {
+      if (video !== videoRef.current) {
+        video.pause();
+      }
+    });
+  }, []);
 
   return (
-    <video
-      src={src}
-      autoPlay
-      controls
-      style={{ width: '100%', height: '100%', objectFit: 'contain', backgroundColor: '#000' }}
-    />
+    <div style={{ width: '100%', height: '100%', backgroundColor: '#000', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {isLoading && (
+        <div style={{ color: '#888', fontSize: '0.9rem' }}>Loading video...</div>
+      )}
+      <video
+        ref={videoRef}
+        src={src}
+        controls
+        onLoadedData={() => setIsLoading(false)}
+        onError={() => {
+          setIsLoading(false);
+          setHasError(true);
+        }}
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          backgroundColor: '#000',
+          display: hasError ? 'none' : 'block'
+        }}
+      />
+      {hasError && (
+        <div style={{ color: '#d11013', fontSize: '0.9rem', textAlign: 'center', padding: '2rem' }}>
+          Unable to load video. Please check the file path.
+        </div>
+      )}
+    </div>
   );
 };
 
@@ -289,34 +311,66 @@ const GallerySection = () => {
             >
               {/* Thumbnail (Video or Image) */}
               {item.type === 'video' ? (
-                <video
-                  src={item.thumbnail}
-                  preload="metadata"
-                  muted
-                  playsInline
-                  style={{ 
-                    width: '100%', 
-                    height: '100%', 
-                    objectFit: 'cover',
-                    opacity: 0.6,
-                    transition: 'opacity 0.3s ease' 
+                <div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: '#1a1a1a',
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
-                  onMouseOver={(e) => e.currentTarget.style.opacity = 0.8}
-                  onMouseOut={(e) => e.currentTarget.style.opacity = 0.6}
-                />
+                >
+                  <video
+                    src={item.videoUrl}
+                    preload="metadata"
+                    muted
+                    playsInline
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      opacity: 0.6,
+                      transition: 'opacity 0.3s ease'
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.opacity = 0.8}
+                    onMouseOut={(e) => e.currentTarget.style.opacity = 0.6}
+                    onError={() => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    width: '50px',
+                    height: '50px',
+                    backgroundColor: 'rgba(209, 16, 19, 0.9)',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    pointerEvents: 'none'
+                  }}>
+                    <Play size={24} fill="white" color="white" />
+                  </div>
+                </div>
               ) : (
-                <img 
-                  src={item.thumbnail} 
-                  alt={item.title} 
-                  style={{ 
-                    width: '100%', 
-                    height: '100%', 
+                <img
+                  src={item.thumbnail}
+                  alt={item.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
                     objectFit: 'cover',
                     opacity: 0.6,
-                    transition: 'opacity 0.3s ease' 
+                    transition: 'opacity 0.3s ease',
+                    backgroundColor: '#1a1a1a'
                   }}
                   onMouseOver={(e) => e.currentTarget.style.opacity = 0.8}
                   onMouseOut={(e) => e.currentTarget.style.opacity = 0.6}
+                  onError={(e) => {
+                    e.target.style.backgroundColor = '#1a1a1a';
+                  }}
                 />
               )}
 

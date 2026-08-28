@@ -19,13 +19,13 @@ const mediaItems = [
     videoUrl: '/videos/Dreams Instagram July 2026.mp4', 
     thumbnail: '/videos/Dreams Instagram July 2026.mp4#t=0.5' 
   },
-  { 
-    id: 3, 
-    type: 'video', 
-    title: 'Bon Jovi - Dry County', 
+  {
+    id: 3,
+    type: 'video',
+    title: 'Bon Jovi - Dry County',
     description: `• Difficulty: Extremely High\n• Techniques: High-speed alternate picking, sweep picking arpeggios, wide interval stretches, aggressive blues-rock bends.\n• Style: Epic rock solo demanding peak stamina and synchronization.`,
-    videoUrl: '/videos/Dry County Solo 2 August 2026.mp4', 
-    thumbnail: '/videos/Dry County Solo 2 August 2026.mp4#t=0.5' 
+    videoUrl: '/videos/Dry County Solo 2 August 2026.mp4',
+    thumbnailTime: 3
   },
   { 
     id: 4, 
@@ -35,26 +35,13 @@ const mediaItems = [
     videoUrl: '/videos/Hit Me With Your Best Shot Instagram July 2026.mp4', 
     thumbnail: '/videos/Hit Me With Your Best Shot Instagram July 2026.mp4#t=0.5' 
   },
-  { 
-    id: 5, 
-    type: 'video', 
-    title: 'Slipping', 
+  {
+    id: 5,
+    type: 'video',
+    title: 'ABBA - Slipping Through my Fingers',
     description: `• Difficulty: Medium\n• Techniques: Rhythmic pocket playing, dynamic slides, melodic double-stops, clean bluesy articulation.\n• Style: Smooth, expressive rock/blues phrasing.`,
-    videoUrl: '/videos/Slipping July 2026.mp4', 
-    thumbnail: '/videos/Slipping July 2026.mp4#t=0.5' 
+    videoUrl: '/videos/Slipping July 2026.mp4'
   },
-  { 
-    id: 6, 
-    type: 'slideshow', 
-    title: 'Custom Frankenstrat Build & Tour', 
-    description: 'Take a close look at this custom hand-striped tribute guitar. Featuring heavy relic detailing, accurate 1971 quarter placement, and custom wound humbuckers for the ultimate "brown sound" live performance.',
-    images: [
-      'https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1525201548912-c231bb6578a0?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1200&q=80'
-    ],
-    thumbnail: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&w=800&q=80'
-  }
 ];
 
 // Dedicated VideoPlayer component with proper ref handling
@@ -352,6 +339,11 @@ const GallerySection = () => {
                     }}
                     onMouseOver={(e) => e.currentTarget.style.opacity = 0.8}
                     onMouseOut={(e) => e.currentTarget.style.opacity = 0.6}
+                    onLoadedMetadata={(e) => {
+                      if (item.thumbnailTime !== undefined) {
+                        e.target.currentTime = item.thumbnailTime;
+                      }
+                    }}
                     onError={() => {
                       e.target.style.display = 'none';
                     }}

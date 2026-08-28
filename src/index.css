@@ -327,16 +327,114 @@ h4 { font-size: clamp(1rem, 2.5vw, 1.5rem); }
   background-size: 30px 30px;
 }
 
+/* Touch & Accessibility Optimization */
+@media (hover: none) and (pointer: coarse) {
+  button, a, input, textarea, [role="button"] {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
+
+/* Notch support for modern phones */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
 /* Media Queries */
-@media (max-width: 900px) {
+
+/* Mobile: 320px - 767px */
+@media (max-width: 767px) {
+  .sidebar { display: none; }
+  .menu-toggle-btn { display: block; }
+
+  .section {
+    padding: 2rem 1.5rem;
+    padding-top: 4rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .flex-layout {
+    flex-direction: column;
+  }
+
+  button, a, input, textarea, [role="button"] {
+    min-height: 48px;
+    min-width: 48px;
+    touch-action: manipulation;
+  }
+
+  .jagged-btn {
+    padding: 1.5rem 2rem !important;
+    font-size: 1rem;
+  }
+
+  .modal-content,
+  [class*="modal"] {
+    padding: 2rem 1.5rem;
+  }
+
+  a, button { -webkit-touch-callout: none; }
+}
+
+/* Tablet: 768px - 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sidebar { display: none; }
+  .menu-toggle-btn { display: block; }
+
+  .section {
+    padding: 3rem 2rem;
+    padding-top: 5rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.6rem, 4.5vw, 2.5rem);
+    margin-bottom: 2rem;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  button, a, input, textarea, [role="button"] {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+}
+
+/* Desktop: 1024px+ */
+@media (min-width: 1024px) {
+  .sidebar { display: flex; }
+  .menu-toggle-btn { display: none; }
+
   .section {
     padding: 4rem 2rem;
     padding-top: 6rem;
   }
+
   .section-title {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 2.5rem;
   }
-  .sidebar {
-    width: 250px;
+
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  button, a, input, textarea {
+    min-height: 40px;
   }
 }

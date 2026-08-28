@@ -130,9 +130,9 @@ const ContactSection = () => {
                 <Phone size={22} style={{ color: 'var(--color-evh-red)' }} />
                 <span>+44 7740 024532 (Phone & WhatsApp)</span>
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              <a href="https://instagram.com/_theandymack_" target="_blank" rel="noopener noreferrer" style={linkStyle}>
                 <InstagramIcon size={22} />
-                <span>Instagram</span>
+                <span>@_theandymack_</span>
               </a>
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={linkStyle}>
                 <FacebookIcon size={22} />
